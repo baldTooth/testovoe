@@ -8,7 +8,11 @@
 /get/{id} - возвращает сгенерированное ранее число по его id. 
 
 
+Для запуска:
 
-Установка через скрипт build.sh 
+1) Установить docker compose и composer (php)
+2) compose install
+3) sh build.sh 
 
-Должен быть установлен docker compose 
+
+
