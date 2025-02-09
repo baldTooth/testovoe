@@ -1,0 +1,10 @@
+{
+    "name": "deryagin/randomserver",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Randomserver\\": "src/"
+        }
+    },
+    "require": {}
+}
