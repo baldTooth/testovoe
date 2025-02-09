@@ -1,0 +1,43 @@
+services:
+  app:
+    build: 
+      dockerfile: ./.docker/php/Dockerfile
+    volumes: 
+      -  "./app:/var/www/app"
+      -  "./logs:/var/www/app/logs"
+    networks: 
+      - common-network
+    depends_on: 
+      - db
+    env_file:
+      - ./.env
+  db:
+    image: postgres:16.4
+    ports:
+      - "5075:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - TZ=Europe/Moscow
+    volumes:
+      - ./.docker/pg/sql:/docker-entrypoint-initdb.d
+      - ./.docker/pg/data:/var/lib/postgresql/data
+    networks:
+      - common-network
+
+  server:
+    build: 
+      dockerfile: .docker/nginx/Dockerfile
+    ports: 
+      - 5095:80
+    volumes:
+      - ./app:/var/www/app
+    depends_on:
+      - app
+    networks:
+      - common-network                                   
+
+networks:
+  common-network:
+    driver: bridge
